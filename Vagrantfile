@@ -125,8 +125,11 @@ Vagrant.configure(2) do |config|
 	sudo mkdir -p /tmp/sikuli
 	sudo ln -s /usr/share/tesseract-ocr/tessdata/ /tmp/sikulils
 	
+	### Set permissions and ownership on /home/vagrant
 	sudo find . -name '.*' -prune -o -exec chmod u=rwx,g=rx,o=r {} +
+	sudo find . -name '.*' -prune -o -exec chown -R vagrant . {} +
 	
+	### Set autostart programs
 	sudo mkdir /home/vagrant/.config/autostart/
 	sudo cp /home/vagrant/linux_setup/scripts/autostart/* /home/vagrant/.config/autostart/
 
