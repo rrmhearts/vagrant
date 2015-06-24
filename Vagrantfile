@@ -55,7 +55,7 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
     vb.gui = true
-	vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
 
   #   # Customize the amount of memory on the VM:
     vb.memory = "1024"
@@ -82,33 +82,54 @@ Vagrant.configure(2) do |config|
   # SHELL
   config.vm.provision "shell", inline: <<-SHELL
 	  
-	  sudo apt-get update
-	  sudo apt-get install unzip
-	  sudo apt-get -y install ubuntu-desktop
-	  #sudo apt-get install linux-headers-generic build-essential dkms
-	  sudo telinit 5
-	  sudo apt-get -y install python
-	  sudo apt-get -y install python-pip
-	  sudo apt-get -y install python-dev build-essential gcc g++
-	  sudo apt-get -y install openjdk-7-jdk
-	  sudo echo "JAVA_HOME=/usr/lib/jvm/jdk-1.7.0-openjdk-i386" >> ~/.bashrc
-	  sudo echo "export JAVA_HOME" >> ~/.bashrc
-	  sudo pip install cython
-	  sudo apt-get -y install sikuli-ide
-  	sudo apt-get -y install git
-	  sudo apt-get update
-	  sudo dpkg-reconfigure --frontend=readline --priority=critical debconf
-	  sudo apt-get -y install expect
-	  sudo apt-get -y install expect-dev
-	  sudo apt-get -f -y install
-	  
-	  #sudo echo deb http://packages.sil.org/ubuntu precise main >> /etc/apt/sources.list
-	  #sudo echo deb http://packages.sil.org/ubuntu precise-experimental main >> /etc/apt/sources.list
-	  #wget http://packages.sil.org/sil.gpg -O- | sudo apt-key add -
- 	  #sudo apt-get update
-	  #sudo apt-get -y install fieldworks-applications
-	  #apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" fieldworks-applications
-	  
+	sudo apt-get update
+	sudo apt-get install unzip
+	sudo apt-get -y install ubuntu-desktop
+	#sudo apt-get install linux-headers-generic build-essential dkms
+	sudo telinit 5
+	sudo apt-get -y install python
+	sudo apt-get -y install python-pip
+	sudo apt-get -y install python-dev build-essential gcc g++
+	sudo apt-get -y install openjdk-7-jdk
+	sudo echo "JAVA_HOME=/usr/lib/jvm/jdk-1.7.0-openjdk-i386" >> ~/.bashrc
+	sudo echo "export JAVA_HOME" >> ~/.bashrc
+	sudo pip install cython
+	sudo apt-get -y install sikuli-ide
+	sudo apt-get -y install git
+	sudo apt-get update
+	sudo dpkg-reconfigure --frontend=readline --priority=critical debconf
+	sudo apt-get -y install expect
+	sudo apt-get -y install expect-dev
+	#sudo apt-get install -y apache2
+	#sudo apt-get install -y gimp
+	sudo apt-get install -y gnome-shell
+	sudo apt-get -f -y install
+	
+	sudo echo deb http://packages.sil.org/ubuntu precise main >> /etc/apt/sources.list
+	sudo echo deb http://packages.sil.org/ubuntu precise-experimental main >> /etc/apt/sources.list
+	wget http://packages.sil.org/sil.gpg -O- | sudo apt-key add -
+	sudo apt-get update
+	#sudo apt-get -y install fieldworks-applications
+	#apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" fieldworks-applications
+	#sudo apt-get update
+
+	sudo apt-get update
+	
+	sudo git clone http://github.com/rrmhearts/linux_setup 
+	sudo echo "Installing fieldworks-applications..." > /vagrant_data/error_log
+	sudo expect linux_setup/flex/fwapp_install_nomore.exp 2>> /vagrant_data/error_log
+	
+	### Could be done in autostart script - it exists, but needs to finish before sikuli starts
+	sudo apt-get -y install libswing-layout-java tesseract-ocr tesseract-ocr-eng gnome-panel
+	sudo rm -r /tmp/sikuli
+	sudo mkdir -p /tmp/sikuli
+	sudo ln -s /usr/share/tesseract-ocr/tessdata/ /tmp/sikulils
+	
+	sudo find . -name '.*' -prune -o -exec chmod u=rwx,g=rx,o=r {} +
+	
+	sudo mkdir /home/vagrant/.config/autostart/
+	sudo cp /home/vagrant/linux_setup/scripts/autostart/* /home/vagrant/.config/autostart/
+
   SHELL
 
 end
