@@ -96,7 +96,6 @@ Vagrant.configure(2) do |config|
 	sudo pip install cython
 	sudo apt-get -y install sikuli-ide
 	sudo apt-get -y install git
-	sudo apt-get update
 	sudo dpkg-reconfigure --frontend=readline --priority=critical debconf
 	sudo apt-get -y install expect
 	sudo apt-get -y install expect-dev
@@ -131,7 +130,8 @@ Vagrant.configure(2) do |config|
 	
 	### Set autostart programs
 	sudo mkdir /home/vagrant/.config/autostart/
-	sudo cp /home/vagrant/linux_setup/scripts/autostart/* /home/vagrant/.config/autostart/
+	sudo cp /home/vagrant/linux_setup/scripts/autostart/*.desktop /home/vagrant/.config/autostart/
+	sudo shutdown -r 0
 
   SHELL
 
