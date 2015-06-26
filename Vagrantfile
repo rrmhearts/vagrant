@@ -115,8 +115,8 @@ Vagrant.configure(2) do |config|
 	sudo apt-get update
 	
 	sudo git clone http://github.com/rrmhearts/linux_setup 
-	sudo echo "Installing fieldworks-applications..." > /vagrant_data/error_log
-	sudo expect linux_setup/flex/fwapp_install_nomore.exp 2>> /vagrant_data/error_log
+	sudo echo "Installing fieldworks-applications..." > /vagrant/error_log
+	sudo expect linux_setup/flex/fwapp_install_nomore.exp 2>> /vagrant/error_log
 	
 	### Could be done in autostart script - it exists, but needs to finish before sikuli starts
 	sudo apt-get -y install libswing-layout-java tesseract-ocr tesseract-ocr-eng gnome-panel
