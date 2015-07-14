@@ -112,7 +112,10 @@ Vagrant.configure(2) do |config|
 	#apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" fieldworks-applications
 	#sudo apt-get update
 
-	sudo apt-get update
+	#------------------- The code below this line -------------------------------
+	#                  Is to be run on every machine where the code above is
+	#                  To be run once. Please package the machine at this point.
+	#                  Also, change default desktop from unity to gnome!
 	
 	sudo git clone http://github.com/rrmhearts/linux_setup 
 	sudo echo "Installing fieldworks-applications..." > /vagrant/error_log
