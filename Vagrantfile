@@ -85,7 +85,6 @@ Vagrant.configure(2) do |config|
 	sudo apt-get update
 	sudo apt-get install unzip
 	sudo apt-get -y install ubuntu-desktop
-	#sudo apt-get install linux-headers-generic build-essential dkms
 	sudo telinit 5
 	sudo apt-get -y install python
 	sudo apt-get -y install python-pip
@@ -104,10 +103,21 @@ Vagrant.configure(2) do |config|
 	sudo apt-get install -y gnome-shell
 	sudo apt-get -f -y install
 	
+	sudo apt-get install linux-headers-generic build-essential dkms
+	wget http://download.virtualbox.org/virtualbox/4.3.28/VBoxGuestAdditions_4.3.28.iso
+	sudo mkdir /media/VBoxGuestAdditions
+	sudo mount -o loop,ro VBoxGuestAdditions_4.3.28.iso /media/VBoxGuestAdditions
+	sudo sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run
+	rm VBoxGuestAdditions_4.3.28.iso
+	sudo umount /media/VBoxGuestAdditions
+	sudo rmdir /media/VBoxGuestAdditions
+
 	sudo echo deb http://packages.sil.org/ubuntu precise main >> /etc/apt/sources.list
 	sudo echo deb http://packages.sil.org/ubuntu precise-experimental main >> /etc/apt/sources.list
 	wget http://packages.sil.org/sil.gpg -O- | sudo apt-key add -
 	sudo apt-get update
+	sudo apt-get autoremove
+	sudo apt-get autoclean
 	#sudo apt-get -y install fieldworks-applications
 	#apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" fieldworks-applications
 	#sudo apt-get update
@@ -131,10 +141,13 @@ Vagrant.configure(2) do |config|
 	### Set permissions and ownership on /home/vagrant
 	sudo find . -name '.*' -prune -o -exec chmod u=rwx,g=rx,o=r {} +
 	sudo find . -name '.*' -prune -o -exec chown -R vagrant . {} +
+	sudo chown -R vagrant /home/vagrant/linux_setup
 	
 	### Set autostart programs
 	sudo mkdir /home/vagrant/.config/autostart/
 	sudo cp /home/vagrant/linux_setup/scripts/autostart/*.desktop /home/vagrant/.config/autostart/
+	sudo chown -R vagrant /home/vagrant/.config/autostart
+	
 	sudo shutdown -r 0
 
   SHELL
