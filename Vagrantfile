@@ -139,7 +139,7 @@ Vagrant.configure(2) do |config|
 	sudo apt-get -y install libswing-layout-java tesseract-ocr tesseract-ocr-eng gnome-panel
 	sudo rm -r /tmp/sikuli
 	sudo mkdir -p /tmp/sikuli
-	sudo ln -s /usr/share/tesseract-ocr/tessdata/ /tmp/sikulils
+	sudo ln -s /usr/share/tesseract-ocr/tessdata/ /tmp/sikuli
 	
 	### Set permissions and ownership on /home/vagrant
 	sudo find . -name '.*' -prune -o -exec chmod u=rwx,g=rx,o=r {} +
