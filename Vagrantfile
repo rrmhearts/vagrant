@@ -95,11 +95,10 @@ Vagrant.configure(2) do |config|
 	sudo pip install cython
 	sudo apt-get -y install sikuli-ide
 	sudo apt-get -y install git
-	sudo dpkg-reconfigure --frontend=readline --priority=critical debconf
+	sudo apt-get -y install git-gui
+	#sudo dpkg-reconfigure --frontend=readline --priority=critical debconf
 	sudo apt-get -y install expect
 	sudo apt-get -y install expect-dev
-	#sudo apt-get install -y apache2
-	#sudo apt-get install -y gimp
 	sudo apt-get install -y gnome-shell
 	sudo apt-get -f -y install
 	
