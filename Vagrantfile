@@ -148,7 +148,7 @@ Vagrant.configure(2) do |config|
 	sudo cp /home/vagrant/linux_setup/scripts/autostart/*.desktop /home/vagrant/.config/autostart/
 	sudo chown -R vagrant /home/vagrant/.config/autostart
 	
-	sudo shutdown -r 0
+	#sudo shutdown 0
 
   SHELL
 
