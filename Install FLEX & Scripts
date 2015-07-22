@@ -70,32 +70,31 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
    config.vm.provision "shell", inline: <<-SHELL
 
- 	 #sudo apt-get update
-	 #sudo apt-get install -f -y 
-	 
-	 sudo git clone http://github.com/rrmhearts/linux_setup 
-	 sudo echo "Installing fieldworks-applications..." > /vagrant_data/error_log
-	 sudo expect linux_setup/flex/fwapp_install_nomore.exp 2>> /vagrant_data/error_log
-	 sudo apt-get -y install fieldworks-l10n-*
-	 ### Could be done in autostart script - it exists, but needs to finish before sikuli starts
-	 #sudo apt-get -y install libswing-layout-java tesseract-ocr tesseract-ocr-eng gnome-panel
-	 sudo rm -rf /tmp/sikuli
-     	 sudo mkdir -p /tmp/sikuli
-     	 sudo ln -s /usr/share/tesseract-ocr/tessdata/ /tmp/sikuli
+sudo git clone http://github.com/rrmhearts/linux_setup 
+	sudo echo "Installing fieldworks-applications..." > /vagrant/error_log
+	
+	### Installation of FLEX, the first line assumes "More" is not needed, the second assumes "More" is used.
+	# sudo expect linux_setup/flex/fwapp_install_nomore.exp 2>> /vagrant/error_log
+	sudo expect linux_setup/flex/fwapp_install.exp 2>> /vagrant/error_log
+	sudo apt-get -y install fieldworks-l10n-*
+	
+	### Could be done in autostart script - it exists, but needs to finish before sikuli starts
+	sudo apt-get -y install libswing-layout-java tesseract-ocr tesseract-ocr-eng gnome-panel
+	sudo rm -r /tmp/sikuli
+	sudo mkdir -p /tmp/sikuli
+	sudo ln -s /usr/share/tesseract-ocr/tessdata/ /tmp/sikuli
+	
+	### Set permissions and ownership on /home/vagrant
+	#sudo find . -name '.*' -prune -o -exec chmod u=rwx,g=rx,o=r {} +
+	#sudo find . -name '.*' -prune -o -exec chown -R vagrant . {} +
+	sudo chown -R vagrant /home/vagrant/linux_setup
+	
+	### Set autostart programs
+	sudo mkdir /home/vagrant/.config/autostart/
+	sudo cp /home/vagrant/linux_setup/scripts/autostart/*.desktop /home/vagrant/.config/autostart/
+	sudo chown -R vagrant /home/vagrant/.config/autostart
 
-	 ### Set permissions and ownership on /home/vagrant
-	 #sudo find . -name '.*' -prune -o -exec chmod u=rwx,g=rx,o=r {} +
-	 #sudo find . -name '.*' -prune -o -exec chown -R vagrant /home/vagrant {} +
-	 sudo chown -R vagrant /home/vagrant/linux_setup
-	 sudo chown -R vagrant /home/vagrant/.config/autostart
-	 
-	 ### Set autostart programs
-	 sudo mkdir /home/vagrant/.config/autostart/
-	 sudo cp /home/vagrant/linux_setup/scripts/autostart/*.desktop /home/vagrant/.config/autostart/
-	 #sudo /usr/lib/lightdm/lightdm-set-defaults -s gnome
- 	 sudo chown -R vagrant /home/vagrant/.config/autostart
-
-	 sudo shutdown -r 0
+	#sudo shutdown 0
 	 
    SHELL
 end
