@@ -1,4 +1,7 @@
 # vagrant
+
+**This project has been continued at [SIL Integration Testing Framework](https://github.com/sillsdev/Integration-Testing-Framework).**
+
 vagrant files and machines
 
 * Use vagrant file
